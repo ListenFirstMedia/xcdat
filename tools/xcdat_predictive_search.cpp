@@ -1,5 +1,8 @@
 #include <xcdat.hpp>
 
+/* This is a fork of xcdat_predictive_search that modifies the record 
+   delimiter so it functions as more than simply an evaluation tool. */
+
 #include "cmd_line_parser/parser.hpp"
 #include "mm_file/mm_file.hpp"
 #include "tinyformat/tinyformat.h"
@@ -32,11 +35,14 @@ int predictive_search(const cmd_line_parser::parser& p) {
             results.push_back({id, std::string(str)});
         });
 
-        tfm::printfln("%d found", results.size());
+        tfm::printf("%d found\t", results.size());
         for (std::uint64_t i = 0; i < std::min<std::uint64_t>(results.size(), max_num_results); i++) {
             const auto& r = results[i];
-            tfm::printfln("%d\t%s", r.id, r.str);
+//            tfm::printf("%d\t%s", r.id, r.str);
+	    if (i != 0) { tfm::printf("\t"); }
+            tfm::printf("%s", r.str);
         }
+	std::cout << std::endl << std::flush;
     }
 
     return 0;
